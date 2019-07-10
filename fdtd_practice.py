@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 X = 40
 Y = 30
+T = 10000
 
 dx = 1
 dy = 1
@@ -23,11 +24,11 @@ P = np.zeros((X, Y), "float64")
 Ux = np.zeros((X+1, Y), "float64")
 Uy = np.zeros((X, Y+1), "float64")
 
-P_all = np.zeros((10000, X, Y), "float64")
+P_all = np.zeros((T, X, Y), "float64")
 mic = []
 Z = rho * c
 
-for n in tqdm(range(10000)):
+for n in tqdm(range(T)):
     if n < len(Q):
         P[20, 15] += Q[n]
     P_all[n] = P
@@ -61,5 +62,6 @@ def animate(i):
    ax.plot_surface(xx, yy, P_all[i], rstride=1, cstride=1, cmap=plt.cm.coolwarm, vmax=1, vmin=-1)
    ax.set_zlim(-2, 2)
 
-anim = animation.FuncAnimation(fig, animate, frames=len(P_all) - 1, interval=10, repeat=False)
+anim = animation.FuncAnimation(fig, animate, frames=len(P_all) - 1, interval=1, repeat=False)
+anim.save("new.mp4", fps = 60)
 plt.show()
